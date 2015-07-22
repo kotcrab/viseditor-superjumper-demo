@@ -1,3 +1,7 @@
+## Vis
+.textureCache/
+.metadata/
+
 ## Java
 
 *.class
