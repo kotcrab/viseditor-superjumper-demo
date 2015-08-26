@@ -1,0 +1,132 @@
+
+textures.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+arrow
+  rotate: false
+  xy: 324, 265
+  size: 62, 48
+  orig: 62, 48
+  offset: 0, 0
+  index: -1
+background
+  rotate: false
+  xy: 2, 533
+  size: 320, 480
+  orig: 320, 480
+  offset: 0, 0
+  index: -1
+coin
+  rotate: false
+  xy: 388, 283
+  size: 19, 30
+  orig: 19, 30
+  offset: 0, 0
+  index: -1
+gameover
+  rotate: false
+  xy: 324, 315
+  size: 122, 71
+  orig: 122, 71
+  offset: 0, 0
+  index: -1
+help
+  rotate: false
+  xy: 183, 20
+  size: 117, 29
+  orig: 117, 29
+  offset: 0, 0
+  index: -1
+help1
+  rotate: false
+  xy: 2, 51
+  size: 320, 480
+  orig: 320, 480
+  offset: 0, 0
+  index: -1
+help2
+  rotate: false
+  xy: 324, 533
+  size: 320, 480
+  orig: 320, 480
+  offset: 0, 0
+  index: -1
+logo
+  rotate: false
+  xy: 324, 388
+  size: 275, 143
+  orig: 275, 143
+  offset: 0, 0
+  index: -1
+pause
+  rotate: false
+  xy: 601, 489
+  size: 40, 42
+  orig: 40, 42
+  offset: 0, 0
+  index: -1
+platform
+  rotate: false
+  xy: 2, 2
+  size: 62, 14
+  orig: 62, 14
+  offset: 0, 0
+  index: -1
+play
+  rotate: false
+  xy: 824, 985
+  size: 117, 28
+  orig: 117, 28
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 324, 233
+  size: 25, 30
+  orig: 25, 30
+  offset: 0, 0
+  index: -1
+quit
+  rotate: false
+  xy: 646, 952
+  size: 118, 28
+  orig: 118, 28
+  offset: 0, 0
+  index: -1
+ready
+  rotate: false
+  xy: 646, 982
+  size: 176, 31
+  orig: 176, 31
+  offset: 0, 0
+  index: -1
+red
+  rotate: false
+  xy: 302, 48
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+resume
+  rotate: false
+  xy: 2, 18
+  size: 179, 31
+  orig: 179, 31
+  offset: 0, 0
+  index: -1
+soundoff
+  rotate: false
+  xy: 448, 337
+  size: 59, 49
+  orig: 59, 49
+  offset: 0, 0
+  index: -1
+soundon
+  rotate: false
+  xy: 646, 901
+  size: 59, 49
+  orig: 59, 49
+  offset: 0, 0
+  index: -1

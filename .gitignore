@@ -1,7 +1,8 @@
 ## Vis
 .textureCache/
 .metadata/
-android/assets/
+.conversionBackup/
+.sceneBackup/
 
 ## Java
 

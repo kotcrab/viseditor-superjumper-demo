@@ -35,6 +35,7 @@ public class PlatformSpawnerSystem extends EntityProcessingSystem implements Aft
 	int platformCount;
 
 	boolean playerOnPlatform;
+	private int targetLayerId;
 
 	public PlatformSpawnerSystem () {
 		super(Aspect.all(SpriteComponent.class, PlatformComponent.class));
@@ -56,7 +57,7 @@ public class PlatformSpawnerSystem extends EntityProcessingSystem implements Aft
 
 			world.createEntity().edit()
 					.add(new RenderableComponent(10))
-					.add(new LayerComponent(0))
+					.add(new LayerComponent(targetLayerId))
 					.add(spriteComponent)
 					.add(new PlatformComponent());
 
@@ -68,7 +69,7 @@ public class PlatformSpawnerSystem extends EntityProcessingSystem implements Aft
 
 				world.createEntity().edit()
 						.add(new RenderableComponent(0))
-						.add(new LayerComponent(0))
+						.add(new LayerComponent(targetLayerId))
 						.add(spriteCoinComponent)
 						.add(new CoinComponent());
 
@@ -87,24 +88,15 @@ public class PlatformSpawnerSystem extends EntityProcessingSystem implements Aft
 
 	@Override
 	protected void process (Entity e) {
-//		if (playerOnPlatform) return;
-//
 		Sprite platformSprite = spriteCm.get(e).sprite;
-//
+
 		if (platformSprite.getY() < cameraManager.getCamera().position.y - 2.6f) {
 			platformCount--;
 			e.deleteFromWorld();
 		}
+	}
 
-//		if (playerSprite.getY() == platformSprite.getY() + platformSprite.getHeight()) {
-//			playerOnPlatform = true;
-//			return;
-//		}
-//
-////		if (playerSprite.getY() >= platformSprite.getY() && playerSprite.getBoundingRectangle().overlaps(platformSprite.getBoundingRectangle())) {
-//		if (playerSprite.getY() >= platformSprite.getY() + platformSprite.getHeight() && playerSprite.getBoundingRectangle().overlaps(platformSprite.getBoundingRectangle())) {
-//			playerOnPlatform = true;
-//			playerSprite.setY(platformSprite.getY() + platformSprite.getHeight());
-//		}
+	public void setTargetLayerId (int targetLayerId) {
+		this.targetLayerId = targetLayerId;
 	}
 }

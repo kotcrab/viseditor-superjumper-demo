@@ -60,9 +60,11 @@ public class SuperJumper extends ApplicationAdapter {
 	public void loadGameScene () {
 		unloadPreviousScene();
 
+		PlatformSpawnerSystem spawnerSystem;
+
 		SceneParameter parameter = new SceneParameter();
 		parameter.managers.add(new GameSceneManager(this));
-		parameter.systems.add(new PlatformSpawnerSystem());
+		parameter.systems.add(spawnerSystem = new PlatformSpawnerSystem());
 		parameter.systems.add(new PlayerSystem());
 		parameter.systems.add(new PhysicsSystem());
 		parameter.systems.add(new CoinCollisionSystem());
@@ -70,6 +72,7 @@ public class SuperJumper extends ApplicationAdapter {
 
 		scenePath = "scene/game.scene";
 		scene = manager.loadSceneNow(scenePath, parameter);
+		spawnerSystem.setTargetLayerId(scene.getLayerDataByName("Game").id);
 	}
 
 	private void unloadPreviousScene () {
