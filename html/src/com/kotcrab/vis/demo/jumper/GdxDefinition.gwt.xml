@@ -5,6 +5,7 @@
 
 	<inherits name='SuperJumper' />
 	<entry-point class='com.kotcrab.vis.demo.jumper.client.HtmlLauncher' />
-	
-	<set-configuration-property name="gdx.assetpath" value="../android/assets" />
+    <inherits name='com.kotcrab.vis.vis-runtime' />
+    <inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
+    <set-configuration-property name="gdx.assetpath" value="../android/assets" />
 </module>

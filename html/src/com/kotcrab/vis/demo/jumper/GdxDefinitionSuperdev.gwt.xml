@@ -4,7 +4,9 @@
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 
     <inherits name='com.kotcrab.vis.demo.jumper.GdxDefinition' />
-    
+    <inherits name='com.kotcrab.vis.vis-runtime' />
+    <inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
+
     <collapse-all-properties />
     
 	<add-linker name="xsiframe"/>	
