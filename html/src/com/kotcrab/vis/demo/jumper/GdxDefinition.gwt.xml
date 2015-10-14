@@ -7,5 +7,10 @@
 	<entry-point class='com.kotcrab.vis.demo.jumper.client.HtmlLauncher' />
     <inherits name='com.kotcrab.vis.vis-runtime' />
     <inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
+
+    <extend-configuration-property name="artemis.reflect.include" value="com.kotcrab.vis.demo.jumper.component" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.kotcrab.vis.demo.jumper.system" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.kotcrab.vis.demo.jumper.manager" />
+
     <set-configuration-property name="gdx.assetpath" value="../android/assets" />
 </module>

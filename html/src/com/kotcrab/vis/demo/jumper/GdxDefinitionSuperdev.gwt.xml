@@ -7,6 +7,10 @@
     <inherits name='com.kotcrab.vis.vis-runtime' />
     <inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
 
+    <extend-configuration-property name="artemis.reflect.include" value="com.kotcrab.vis.demo.jumper.component" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.kotcrab.vis.demo.jumper.system" />
+    <extend-configuration-property name="artemis.reflect.include" value="com.kotcrab.vis.demo.jumper.manager" />
+
     <collapse-all-properties />
     
 	<add-linker name="xsiframe"/>	

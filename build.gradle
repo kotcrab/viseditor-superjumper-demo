@@ -22,6 +22,7 @@ allprojects {
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.4.0'
         aiVersion = '1.5.0'
+        visRuntimeVersion = '0.2.6-SNAPSHOT'
     }
 
     repositories {
