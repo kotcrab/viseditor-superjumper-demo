@@ -35,7 +35,7 @@ public class GameSceneManager extends BaseSceneManager {
 	@Override
 	public boolean touchDown (int screenX, int screenY, int pointer, int button) {
 		unprojectVec.set(screenX, screenY, 0);
-		cameraManager.getCamera().unproject(unprojectVec);
+		cameraManager.getUiCamera().unproject(unprojectVec);
 
 		float x = unprojectVec.x;
 		float y = unprojectVec.y;
