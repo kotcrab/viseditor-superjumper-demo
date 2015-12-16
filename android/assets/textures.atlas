@@ -4,128 +4,135 @@ size: 2048,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-arrow
+bmpfont/font
   rotate: false
-  xy: 1245, 386
+  xy: 968, 242
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+gfx/arrow
+  rotate: false
+  xy: 1627, 450
   size: 62, 48
   orig: 62, 48
   offset: 0, 0
   index: -1
-background
+gfx/background
   rotate: false
   xy: 2, 18
   size: 320, 480
   orig: 320, 480
   offset: 0, 0
   index: -1
-coin
+gfx/coin
   rotate: false
-  xy: 1309, 404
+  xy: 1404, 323
   size: 19, 30
   orig: 19, 30
   offset: 0, 0
   index: -1
-gameover
+gfx/gameover
   rotate: false
-  xy: 968, 249
+  xy: 1503, 427
   size: 122, 71
   orig: 122, 71
   offset: 0, 0
   index: -1
-help
+gfx/help
   rotate: false
-  xy: 1245, 436
+  xy: 968, 178
   size: 117, 29
   orig: 117, 29
   offset: 0, 0
   index: -1
-help1
+gfx/help1
   rotate: false
   xy: 324, 18
   size: 320, 480
   orig: 320, 480
   offset: 0, 0
   index: -1
-help2
+gfx/help2
   rotate: false
   xy: 646, 18
   size: 320, 480
   orig: 320, 480
   offset: 0, 0
   index: -1
-logo
+gfx/logo
   rotate: false
-  xy: 968, 355
+  xy: 1226, 355
   size: 275, 143
   orig: 275, 143
   offset: 0, 0
   index: -1
-pause
+gfx/pause
   rotate: false
-  xy: 1092, 278
+  xy: 1226, 248
   size: 40, 42
   orig: 40, 42
   offset: 0, 0
   index: -1
-platform
+gfx/platform
   rotate: false
   xy: 2, 2
   size: 62, 14
   orig: 62, 14
   offset: 0, 0
   index: -1
-play
+gfx/play
   rotate: false
-  xy: 968, 219
+  xy: 1503, 397
   size: 117, 28
   orig: 117, 28
   offset: 0, 0
   index: -1
-player
+gfx/player
   rotate: false
-  xy: 1149, 323
+  xy: 1149, 210
   size: 25, 30
   orig: 25, 30
   offset: 0, 0
   index: -1
-quit
+gfx/quit
   rotate: false
-  xy: 1423, 470
+  xy: 1226, 292
   size: 118, 28
   orig: 118, 28
   offset: 0, 0
   index: -1
-ready
+gfx/ready
   rotate: false
-  xy: 1245, 467
+  xy: 1226, 322
   size: 176, 31
   orig: 176, 31
   offset: 0, 0
   index: -1
-red
+gfx/red
   rotate: false
-  xy: 1364, 464
+  xy: 1087, 206
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
-resume
+gfx/resume
   rotate: false
-  xy: 968, 322
+  xy: 968, 209
   size: 179, 31
   orig: 179, 31
   offset: 0, 0
   index: -1
-soundoff
+gfx/soundoff
   rotate: false
-  xy: 968, 168
+  xy: 968, 127
   size: 59, 49
   orig: 59, 49
   offset: 0, 0
   index: -1
-soundon
+gfx/soundon
   rotate: false
-  xy: 968, 117
+  xy: 968, 76
   size: 59, 49
   orig: 59, 49
   offset: 0, 0

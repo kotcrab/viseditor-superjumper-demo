@@ -1,0 +1,14 @@
+[
+  {
+    "key": "sound/",
+    "value": "com.kotcrab.vis.editor.directory.Sound",
+    "@class-key": "String",
+    "@class-value": "String"
+  },
+  {
+    "key": "music/",
+    "value": "com.kotcrab.vis.editor.directory.Music",
+    "@class-key": "String",
+    "@class-value": "String"
+  }
+]

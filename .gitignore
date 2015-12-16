@@ -1,8 +1,6 @@
-## Vis
-.textureCache/
-.metadata/
-.conversionBackup/
-.sceneBackup/
+## VisEditor
+vis/.*
+vis/**/.*
 
 ## Java
 
