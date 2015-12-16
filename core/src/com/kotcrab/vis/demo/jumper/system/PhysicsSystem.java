@@ -1,23 +1,24 @@
 package com.kotcrab.vis.demo.jumper.system;
 
 import com.artemis.*;
-import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
-import com.kotcrab.vis.demo.jumper.component.PlatformComponent;
-import com.kotcrab.vis.demo.jumper.component.VelocityComponent;
+import com.kotcrab.vis.demo.jumper.component.Bounds;
+import com.kotcrab.vis.demo.jumper.component.Platform;
+import com.kotcrab.vis.demo.jumper.component.Velocity;
 import com.kotcrab.vis.demo.jumper.manager.GameSceneManager;
 import com.kotcrab.vis.demo.jumper.manager.GameSceneManager.GameState;
-import com.kotcrab.vis.runtime.component.SpriteComponent;
+import com.kotcrab.vis.runtime.component.Transform;
+import com.kotcrab.vis.runtime.component.VisSprite;
 
 /** @author Kotcrab */
-@Wire
 public class PhysicsSystem extends EntityProcessingSystem {
-	ComponentMapper<SpriteComponent> spriteCm;
-	ComponentMapper<VelocityComponent> velocityCm;
+	ComponentMapper<VisSprite> spriteCm;
+	ComponentMapper<Transform> transformCm;
+	ComponentMapper<Velocity> velocityCm;
+	ComponentMapper<Bounds> boundsCm;
 
 	AspectSubscriptionManager subscriptionManager;
 	EntitySubscription platformsSubscription;
@@ -27,13 +28,13 @@ public class PhysicsSystem extends EntityProcessingSystem {
 	final float gravity = -9.81f;
 
 	public PhysicsSystem () {
-		super(Aspect.all(SpriteComponent.class, VelocityComponent.class));
+		super(Aspect.all(VisSprite.class, Velocity.class));
 	}
 
 	@Override
 	protected void initialize () {
 		super.initialize();
-		platformsSubscription = subscriptionManager.get(Aspect.all(PlatformComponent.class));
+		platformsSubscription = subscriptionManager.get(Aspect.all(Platform.class));
 	}
 
 	@Override
@@ -43,22 +44,23 @@ public class PhysicsSystem extends EntityProcessingSystem {
 
 	@Override
 	protected void process (Entity e) {
-		Sprite sprite = spriteCm.get(e).sprite;
-		VelocityComponent velocity = velocityCm.get(e);
+		Rectangle bounds = boundsCm.get(e).bounds;
+		Transform transform = transformCm.get(e);
+		Velocity velocity = velocityCm.get(e);
 
 		float delta = Math.min(1 / 10f, Gdx.graphics.getDeltaTime());
 
 		if (velocity.x != 0) {
-			sprite.setX(sprite.getX() + velocity.x * delta);
+			transform.setX(transform.getX() + velocity.x * delta);
 			velocity.x -= 0.15f;
 			if (velocity.x < 0) velocity.x = 0;
 		}
 
 		velocity.y += gravity * delta;
-		float targetY = sprite.getY() + velocity.y * delta;
+		float targetY = transform.getY() + velocity.y * delta;
 
 		if(velocity.y > 0) {
-			sprite.setY(targetY);
+			transform.setY(targetY);
 			return;
 		}
 
@@ -67,18 +69,19 @@ public class PhysicsSystem extends EntityProcessingSystem {
 
 		for (int i = 0; i < bag.size(); i++) {
 			Entity platform = world.getEntity(data[i]);
-			Sprite platformSprite = spriteCm.get(platform).sprite;
+			Transform platformTransform = transformCm.get(platform);
+			VisSprite platformSprite = spriteCm.get(platform);
+			Bounds platfromBounds = boundsCm.get(platform);
 
-			if (sprite.getY() > platformSprite.getY()) {
-				Rectangle bounds = sprite.getBoundingRectangle();
+			if (transform.getY() > platformTransform.getY()) {
 				bounds.y = targetY;
-				if (bounds.overlaps(platformSprite.getBoundingRectangle())) {
-					sprite.setY(platformSprite.getY() + platformSprite.getHeight());
+				if (bounds.overlaps(platfromBounds.bounds)) {
+					transform.setY(platformTransform.getY() + platformSprite.getHeight());
 					velocity.y = 0;
 					return;
 				}
 			}
 		}
-		sprite.setY(targetY);
+		transform.setY(targetY);
 	}
 }

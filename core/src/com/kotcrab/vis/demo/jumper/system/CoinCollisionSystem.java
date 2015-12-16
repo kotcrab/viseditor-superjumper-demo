@@ -3,41 +3,41 @@ package com.kotcrab.vis.demo.jumper.system;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
-import com.kotcrab.vis.demo.jumper.component.CoinComponent;
-import com.kotcrab.vis.runtime.component.SpriteComponent;
-import com.kotcrab.vis.runtime.component.TextComponent;
+import com.kotcrab.vis.demo.jumper.component.Bounds;
+import com.kotcrab.vis.demo.jumper.component.Coin;
+import com.kotcrab.vis.runtime.component.VisSprite;
+import com.kotcrab.vis.runtime.component.VisText;
 import com.kotcrab.vis.runtime.system.VisIDManager;
 import com.kotcrab.vis.runtime.util.AfterSceneInit;
 
 /** @author Kotcrab */
-@Wire
 public class CoinCollisionSystem extends EntityProcessingSystem implements AfterSceneInit {
-	ComponentMapper<SpriteComponent> spriteCm;
-	ComponentMapper<TextComponent> textCm;
+	ComponentMapper<VisSprite> spriteCm;
+	ComponentMapper<Bounds> boundsCm;
+	ComponentMapper<VisText> textCm;
 
 	VisIDManager idManager;
 
-	SpriteComponent playerSprite;
+	Bounds playerBounds;
+	VisText scoreText;
 	int score = 0;
-	TextComponent scoreText;
 
 	public CoinCollisionSystem () {
-		super(Aspect.all(SpriteComponent.class, CoinComponent.class));
+		super(Aspect.all(VisSprite.class, Coin.class));
 	}
 
 	@Override
 	public void afterSceneInit () {
-		playerSprite = spriteCm.get(idManager.get("player"));
+		playerBounds = boundsCm.get(idManager.get("player"));
 		scoreText = textCm.get(idManager.get("score"));
 	}
 
 	@Override
 	protected void process (Entity e) {
-		SpriteComponent coin = spriteCm.get(e);
-
-		if (coin.getBoundingRectangle().overlaps(playerSprite.getBoundingRectangle())) {
+		VisSprite coin = spriteCm.get(e);
+		Bounds bounds = boundsCm.get(e);
+		if (bounds.overlaps(playerBounds.bounds)) {
 			score++;
 			scoreText.setText(String.valueOf(score));
 			e.deleteFromWorld();

@@ -3,22 +3,23 @@ package com.kotcrab.vis.demo.jumper.manager;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.Manager;
-import com.artemis.annotations.Wire;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.kotcrab.vis.demo.jumper.SoundController;
 import com.kotcrab.vis.demo.jumper.SuperJumper;
-import com.kotcrab.vis.runtime.component.SpriteComponent;
+import com.kotcrab.vis.demo.jumper.component.Bounds;
+import com.kotcrab.vis.runtime.component.Transform;
+import com.kotcrab.vis.runtime.component.VisSprite;
 import com.kotcrab.vis.runtime.system.CameraManager;
 import com.kotcrab.vis.runtime.system.VisIDManager;
 import com.kotcrab.vis.runtime.util.AfterSceneInit;
 
 /** @author Kotcrab */
-@Wire
 public abstract class BaseSceneManager extends Manager implements InputProcessor, AfterSceneInit {
-	protected ComponentMapper<SpriteComponent> spriteCm;
+	protected ComponentMapper<Bounds> boundsCm;
+	protected ComponentMapper<Transform> transformCm;
+	protected ComponentMapper<VisSprite> spriteCm;
 
 	protected SuperJumper game;
 	protected SoundController soundController;
@@ -33,15 +34,14 @@ public abstract class BaseSceneManager extends Manager implements InputProcessor
 		this.soundController = game.getSoundController();
 	}
 
-	protected Sprite getSprite (String id) {
+	protected Bounds getSpriteBounds (String id) {
 		Entity entity = idManager.get(id);
-		return spriteCm.get(entity).sprite;
+		return boundsCm.get(entity);
 	}
 
 	@Override
 	public void afterSceneInit () {
 		Gdx.input.setInputProcessor(this);
-
 	}
 
 	@Override

@@ -1,20 +1,26 @@
 package com.kotcrab.vis.demo.jumper.manager;
 
-import com.artemis.annotations.Wire;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.artemis.ComponentMapper;
+import com.artemis.Entity;
 import com.kotcrab.vis.demo.jumper.SuperJumper;
+import com.kotcrab.vis.demo.jumper.component.Bounds;
+import com.kotcrab.vis.runtime.component.Invisible;
 
 /** @author Kotcrab */
-@Wire(injectInherited = true)
 public class GameSceneManager extends BaseSceneManager {
+	private ComponentMapper<Bounds> boundsCm;
+
 	public enum GameState {GET_READY, RUNNING, PAUSED, GAME_OVER}
 
 	GameState state = GameState.GET_READY;
 
-	Sprite pauseSprite;
-	Sprite resumeSprite;
-	Sprite readySprite;
-	Sprite gameOverSprite;
+	Entity pauseEntity;
+	Entity resumeEntity;
+	Entity readyEntity;
+	Entity gameOverEntity;
+
+	Bounds pauseBounds;
+	Bounds resumeBounds;
 
 	public GameSceneManager (SuperJumper game) {
 		super(game);
@@ -23,13 +29,16 @@ public class GameSceneManager extends BaseSceneManager {
 	@Override
 	public void afterSceneInit () {
 		super.afterSceneInit();
-		pauseSprite = getSprite("pause");
-		resumeSprite = getSprite("resume");
-		readySprite = getSprite("ready");
-		gameOverSprite = getSprite("gameover");
+		pauseEntity = idManager.get("pause");
+		resumeEntity = idManager.get("resume");
+		readyEntity = idManager.get("ready");
+		gameOverEntity = idManager.get("gameover");
 
-		resumeSprite.setAlpha(0);
-		gameOverSprite.setAlpha(0);
+		pauseBounds = boundsCm.get(pauseEntity);
+		resumeBounds = boundsCm.get(resumeEntity);
+
+		resumeEntity.edit().add(new Invisible());
+		gameOverEntity.edit().add(new Invisible());
 	}
 
 	@Override
@@ -40,22 +49,22 @@ public class GameSceneManager extends BaseSceneManager {
 		float x = unprojectVec.x;
 		float y = unprojectVec.y;
 
-		if (state == GameState.RUNNING && pauseSprite.getBoundingRectangle().contains(x, y)) {
+		if (state == GameState.RUNNING && pauseBounds.contains(x, y)) {
 			soundController.playClick();
 			state = GameState.PAUSED;
-			resumeSprite.setAlpha(1);
+			resumeEntity.edit().remove(new Invisible());
 		}
 
-		if (state == GameState.PAUSED && resumeSprite.getBoundingRectangle().contains(x, y)) {
+		if (state == GameState.PAUSED && resumeBounds.contains(x, y)) {
 			soundController.playClick();
 			state = GameState.RUNNING;
-			resumeSprite.setAlpha(0);
+			resumeEntity.edit().add(new Invisible());
 		}
 
 		if (state == GameState.GET_READY) {
 			soundController.playClick();
 			state = GameState.RUNNING;
-			readySprite.setAlpha(0);
+			readyEntity.edit().add(new Invisible());
 		}
 
 		return false;
@@ -67,7 +76,7 @@ public class GameSceneManager extends BaseSceneManager {
 
 	public void gameOver () {
 		state = GameState.GAME_OVER;
-		gameOverSprite.setAlpha(1);
+		gameOverEntity.edit().remove(new Invisible());
 	}
 
 }

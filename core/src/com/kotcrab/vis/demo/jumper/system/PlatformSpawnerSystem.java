@@ -3,33 +3,29 @@ package com.kotcrab.vis.demo.jumper.system;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
-import com.kotcrab.vis.demo.jumper.component.CoinComponent;
-import com.kotcrab.vis.demo.jumper.component.PlatformComponent;
-import com.kotcrab.vis.runtime.component.LayerComponent;
-import com.kotcrab.vis.runtime.component.RenderableComponent;
-import com.kotcrab.vis.runtime.component.SpriteComponent;
+import com.kotcrab.vis.demo.jumper.component.Coin;
+import com.kotcrab.vis.demo.jumper.component.Platform;
+import com.kotcrab.vis.runtime.component.*;
 import com.kotcrab.vis.runtime.system.CameraManager;
-import com.kotcrab.vis.runtime.system.RenderBatchingSystem;
 import com.kotcrab.vis.runtime.system.VisIDManager;
+import com.kotcrab.vis.runtime.system.render.RenderBatchingSystem;
 import com.kotcrab.vis.runtime.util.AfterSceneInit;
 
 /** @author Kotcrab */
-@Wire
 public class PlatformSpawnerSystem extends EntityProcessingSystem implements AfterSceneInit {
-	ComponentMapper<SpriteComponent> spriteCm;
+	ComponentMapper<VisSprite> spriteCm;
+	ComponentMapper<Transform> transformCm;
 
 	RenderBatchingSystem renderSystme;
 	CameraManager cameraManager;
 	VisIDManager idManager;
 
-	Sprite platformTemplateSprite;
-	Sprite coinTemplateSprite;
+	VisSprite platformTemplate;
+	VisSprite coinTemplate;
 
-	Sprite playerSprite;
+	VisSprite playerSprite;
 
 	float lastPlatformY = 1f;
 	int platformCount;
@@ -38,43 +34,48 @@ public class PlatformSpawnerSystem extends EntityProcessingSystem implements Aft
 	private int targetLayerId;
 
 	public PlatformSpawnerSystem () {
-		super(Aspect.all(SpriteComponent.class, PlatformComponent.class));
+		super(Aspect.all(VisSprite.class, Platform.class));
 	}
 
 	@Override
 	public void afterSceneInit () {
-		platformTemplateSprite = spriteCm.get(idManager.get("platform")).sprite;
-		coinTemplateSprite = spriteCm.get(idManager.get("coin")).sprite;
-		playerSprite = spriteCm.get(idManager.get("player")).sprite;
+		platformTemplate = spriteCm.get(idManager.get("platform"));
+		coinTemplate = spriteCm.get(idManager.get("coin"));
 
-		idManager.get("floor").edit().add(new PlatformComponent());
+		playerSprite = spriteCm.get(idManager.get("player"));
+
+		idManager.get("floor").edit().add(new Platform());
 	}
 
 	@Override
 	protected void begin () {
-		if (platformCount < 10 && platformTemplateSprite != null) {
-			SpriteComponent spriteComponent = new SpriteComponent(new Sprite(platformTemplateSprite));
+		if (platformCount < 10 && platformTemplate != null) {
+			VisSprite platformSprite = new VisSprite(platformTemplate);
+			Transform platformTransform = new Transform();
 
 			world.createEntity().edit()
-					.add(new RenderableComponent(10))
-					.add(new LayerComponent(targetLayerId))
-					.add(spriteComponent)
-					.add(new PlatformComponent());
+					.add(new Renderable(10))
+					.add(new Layer(targetLayerId))
+					.add(new VisSprite(platformTemplate))
+					.add(platformTransform)
+					.add(new Origin())
+					.add(new Platform());
 
-			spriteComponent.setX(MathUtils.random(0.23f, 2.8f));
-			spriteComponent.setY(lastPlatformY);
+			platformTransform.setPosition(MathUtils.random(0.23f, 2.8f), lastPlatformY);
 
 			if (MathUtils.randomBoolean(0.3f)) {
-				SpriteComponent spriteCoinComponent = new SpriteComponent(new Sprite(coinTemplateSprite));
+				VisSprite coinSprite = new VisSprite(coinTemplate);
+				Transform coinTransform = new Transform();
 
 				world.createEntity().edit()
-						.add(new RenderableComponent(0))
-						.add(new LayerComponent(targetLayerId))
-						.add(spriteCoinComponent)
-						.add(new CoinComponent());
+						.add(new Renderable(0))
+						.add(new Layer(targetLayerId))
+						.add(coinSprite)
+						.add(coinTransform)
+						.add(new Origin())
+						.add(new Coin());
 
-				spriteCoinComponent.setPosition(spriteComponent.getX() + spriteComponent.getWidth() / 2.0f,
-						spriteComponent.getY() + 0.5f);
+				coinTransform.setPosition(platformTransform.getX() + platformSprite.getWidth() / 2.0f, platformTransform.getY() + 0.5f);
 			}
 
 			renderSystme.markDirty();
@@ -88,9 +89,9 @@ public class PlatformSpawnerSystem extends EntityProcessingSystem implements Aft
 
 	@Override
 	protected void process (Entity e) {
-		Sprite platformSprite = spriteCm.get(e).sprite;
-
-		if (platformSprite.getY() < cameraManager.getCamera().position.y - 2.6f) {
+		//delete platforms outside screen
+		Transform platformTransform = transformCm.get(e);
+		if (platformTransform.getY() < cameraManager.getCamera().position.y - 2.6f) {
 			platformCount--;
 			e.deleteFromWorld();
 		}

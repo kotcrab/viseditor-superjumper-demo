@@ -41,7 +41,9 @@ public class SuperJumper extends ApplicationAdapter {
 		unloadPreviousScene();
 
 		SceneParameter parameter = new SceneParameter();
-		parameter.managers.add(new MenuSceneManager(this));
+		parameter.config.addSystem(new SpriteBoundsCreator());
+		parameter.config.addSystem(new SpriteBoundsUpdater());
+		parameter.config.addSystem(new MenuSceneManager(this));
 
 		scenePath = "scene/mainmenu.scene";
 		scene = manager.loadSceneNow(scenePath, parameter);
@@ -51,7 +53,9 @@ public class SuperJumper extends ApplicationAdapter {
 		unloadPreviousScene();
 
 		SceneParameter parameter = new SceneParameter();
-		parameter.managers.add(new HelpSceneManager(this));
+		parameter.config.addSystem(new SpriteBoundsCreator());
+		parameter.config.addSystem(new SpriteBoundsUpdater());
+		parameter.config.addSystem(new HelpSceneManager(this));
 
 		scenePath = "scene/help.scene";
 		scene = manager.loadSceneNow(scenePath, parameter);
@@ -63,12 +67,14 @@ public class SuperJumper extends ApplicationAdapter {
 		PlatformSpawnerSystem spawnerSystem;
 
 		SceneParameter parameter = new SceneParameter();
-		parameter.managers.add(new GameSceneManager(this));
-		parameter.systems.add(spawnerSystem = new PlatformSpawnerSystem());
-		parameter.systems.add(new PlayerSystem());
-		parameter.systems.add(new PhysicsSystem());
-		parameter.systems.add(new CoinCollisionSystem());
-		parameter.systems.add(new CameraControllerSystem());
+		parameter.config.addSystem(new SpriteBoundsCreator());
+		parameter.config.addSystem(new GameSceneManager(this));
+		parameter.config.addSystem(spawnerSystem = new PlatformSpawnerSystem());
+		parameter.config.addSystem(new PlayerSystem());
+		parameter.config.addSystem(new PhysicsSystem());
+		parameter.config.addSystem(new CoinCollisionSystem());
+		parameter.config.addSystem(new CameraControllerSystem());
+		parameter.config.addSystem(new SpriteBoundsUpdater());
 
 		scenePath = "scene/game.scene";
 		scene = manager.loadSceneNow(scenePath, parameter);

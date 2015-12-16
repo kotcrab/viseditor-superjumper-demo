@@ -2,7 +2,7 @@ package com.kotcrab.vis.demo.jumper;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.kotcrab.vis.runtime.component.SoundComponent;
+import com.kotcrab.vis.runtime.component.VisSound;
 import com.kotcrab.vis.runtime.scene.VisAssetManager;
 
 /** @author Kotcrab */
@@ -31,7 +31,7 @@ public class SoundController {
 		play(click);
 	}
 
-	public void play (SoundComponent component) {
+	public void play (VisSound component) {
 		play(component.sound);
 	}
 

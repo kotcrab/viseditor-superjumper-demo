@@ -2,24 +2,22 @@ package com.kotcrab.vis.demo.jumper.system;
 
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
-import com.artemis.annotations.Wire;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.kotcrab.vis.demo.jumper.component.Bounds;
 import com.kotcrab.vis.demo.jumper.manager.GameSceneManager;
-import com.kotcrab.vis.runtime.component.SpriteComponent;
 import com.kotcrab.vis.runtime.system.CameraManager;
 import com.kotcrab.vis.runtime.system.VisIDManager;
 import com.kotcrab.vis.runtime.util.AfterSceneInit;
 
 /** @author Kotcrab */
-@Wire
 public class CameraControllerSystem extends BaseSystem implements AfterSceneInit {
-	ComponentMapper<SpriteComponent> spriteCm;
+	ComponentMapper<Bounds> boundsCm;
 
 	VisIDManager idManager;
 	GameSceneManager gameManager;
 	CameraManager cameraManager;
 
-	SpriteComponent player;
+	Bounds playerBounds;
 
 	float startCameraY;
 
@@ -29,8 +27,7 @@ public class CameraControllerSystem extends BaseSystem implements AfterSceneInit
 	public void afterSceneInit () {
 		init = true;
 
-		player = spriteCm.get(idManager.get("player"));
-
+		playerBounds = boundsCm.get(idManager.get("player"));
 
 		startCameraY = cameraManager.getCamera().position.y;
 	}
@@ -43,7 +40,7 @@ public class CameraControllerSystem extends BaseSystem implements AfterSceneInit
 	@Override
 	protected void processSystem () {
 		OrthographicCamera camera = cameraManager.getCamera();
-		float yp = player.getY();
+		float yp = playerBounds.getY();
 		if (yp > camera.position.y) {
 			camera.position.y = yp;
 		}

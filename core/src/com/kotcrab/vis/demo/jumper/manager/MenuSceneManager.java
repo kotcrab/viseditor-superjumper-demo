@@ -1,19 +1,22 @@
 package com.kotcrab.vis.demo.jumper.manager;
 
-import com.artemis.annotations.Wire;
+import com.artemis.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.kotcrab.vis.demo.jumper.SuperJumper;
+import com.kotcrab.vis.demo.jumper.component.Bounds;
+import com.kotcrab.vis.runtime.component.Transform;
 
 /** @author Kotcrab */
-@Wire(injectInherited = true)
 public class MenuSceneManager extends BaseSceneManager {
-	private Sprite playSprite;
-	private Sprite helpSprite;
-	private Sprite quitSprite;
+	private Bounds playSprite;
+	private Bounds helpSprite;
+	private Bounds quitSprite;
 
-	private Sprite soundOnSprite;
-	private Sprite soundOffSprite;
+	private Entity soundOnEntity;
+	private Entity soundOffEntity;
+
+	private Bounds soundOnBounds;
+	private Bounds soundOffBounds;
 
 	public MenuSceneManager (SuperJumper game) {
 		super(game);
@@ -23,12 +26,15 @@ public class MenuSceneManager extends BaseSceneManager {
 	public void afterSceneInit () {
 		super.afterSceneInit();
 
-		playSprite = getSprite("play");
-		helpSprite = getSprite("help");
-		quitSprite = getSprite("quit");
+		playSprite = getSpriteBounds("play");
+		helpSprite = getSpriteBounds("help");
+		quitSprite = getSpriteBounds("quit");
 
-		soundOnSprite = getSprite("soundOn");
-		soundOffSprite = getSprite("soundOff");
+		soundOnEntity = idManager.get("soundOn");
+		soundOffEntity = idManager.get("soundOff");
+
+		soundOnBounds = boundsCm.get(soundOnEntity);
+		soundOffBounds = boundsCm.get(soundOffEntity);
 	}
 
 	@Override
@@ -39,35 +45,38 @@ public class MenuSceneManager extends BaseSceneManager {
 		float x = unprojectVec.x;
 		float y = unprojectVec.y;
 
-		if (playSprite.getBoundingRectangle().contains(x, y)) {
+		if (playSprite.contains(x, y)) {
 			soundController.playClick();
 			game.loadGameScene();
 		}
 
-		if (helpSprite.getBoundingRectangle().contains(x, y)) {
+		if (helpSprite.contains(x, y)) {
 			soundController.playClick();
 			game.loadHelpScene();
 		}
 
-		if (quitSprite.getBoundingRectangle().contains(x, y)) {
+		if (quitSprite.contains(x, y)) {
 			soundController.playClick();
 			Gdx.app.exit();
 		}
 
-		if (soundOnSprite.getBoundingRectangle().contains(x, y)) {
+		if (soundOnBounds.contains(x, y)) {
 			soundController.setSoundEnabled(false);
-			swapSpritesPosition(soundOnSprite, soundOffSprite);
-		} else if (soundOffSprite.getBoundingRectangle().contains(x, y)) {
+			swapSpritesPosition(soundOnEntity, soundOffEntity);
+		} else if (soundOffBounds.contains(x, y)) {
 			soundController.setSoundEnabled(true);
-			swapSpritesPosition(soundOffSprite, soundOnSprite);
+			swapSpritesPosition(soundOffEntity, soundOnEntity);
 		}
 
 		return false;
 	}
 
-	public void swapSpritesPosition (Sprite sprite1, Sprite sprite2) {
-		float xPos = sprite1.getX(), yPos = sprite1.getY();
-		sprite1.setPosition(sprite2.getX(), sprite2.getY());
-		sprite2.setPosition(xPos, yPos);
+	public void swapSpritesPosition (Entity entity1, Entity entity2) {
+		Transform transform1 = transformCm.get(entity1);
+		Transform transform2 = transformCm.get(entity2);
+
+		float xPos = transform1.getX(), yPos = transform1.getY();
+		transform1.setPosition(transform2.getX(), transform2.getY());
+		transform2.setPosition(xPos, yPos);
 	}
 }
